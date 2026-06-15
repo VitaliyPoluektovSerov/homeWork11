@@ -1,5 +1,6 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 import java.time.LocalDate;
 
 public class Main {
@@ -19,30 +20,34 @@ public class Main {
 
     public static void printInstallVersionDevice(int clientOS, int clientDeviceYear) {
         int currentYear = LocalDate.now().getYear();
-        if (clientDeviceYear < currentYear && clientOS == 0) {
-            System.out.println("Установите облегченную версию приложения для iOS по ссылке");
+        String message = "";
+        switch (clientOS) {
+            case 0:
+                message = "iOS по ссылке";
+                break;
+            case 1:
+                message = "Android по ссылке";
+                break;
         }
-        if (clientDeviceYear >= currentYear && clientOS == 0) {
-            System.out.println("Установите обычную версию приложения для iOS по ссылке");
+        if (clientDeviceYear == currentYear) {
+            message = "Установите обычную версию приложения для " + message;
+        } else {
+            message = "Установите облегченную версию приложения для " + message;
         }
-        if (clientDeviceYear < currentYear && clientOS == 1) {
-            System.out.println("Установите облегченную версию приложения для Android по ссылке");
-        }
-        if (clientDeviceYear >= currentYear && clientOS == 1) {
-            System.out.println("Установите обычную версию приложения для Android по ссылке");
-        }
+        System.out.println(message);
     }
 
-    public static int deliveryDays (int deliveryDistance){
+    public static int deliveryDays(int deliveryDistance) {
         int deliveryDays = 0;
         if (deliveryDistance <= 20) {
             deliveryDays = 1;
-        }
-        if (deliveryDistance > 20 && deliveryDistance <= 60) {
+            return deliveryDays;
+        } else if (deliveryDistance > 20 && deliveryDistance <= 60) {
             deliveryDays = 2;
-        }
-        if (deliveryDistance > 60 && deliveryDistance <= 100) {
+            return deliveryDays;
+        } else if (deliveryDistance > 60 && deliveryDistance <= 100) {
             deliveryDays = 3;
+            return deliveryDays;
         }
         return deliveryDays;
     }
@@ -54,10 +59,11 @@ public class Main {
         year = 2025;
         printInstallVersionDevice(clientOS, year);
         int deliveryDistance = 95;
-        if (deliveryDistance <= 100) {
-            System.out.println("Количество дней доставки - " + deliveryDays(deliveryDistance));
-        } else {
+        int deliveryDays = deliveryDays(deliveryDistance);
+        if (deliveryDays == 0) {
             System.out.println("Нет доставки в ваш район.");
+        } else {
+            System.out.println("Количество дней доставки - " + deliveryDays);
         }
     }
 }
